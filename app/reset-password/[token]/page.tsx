@@ -9,7 +9,7 @@ import { UserType } from '@/app/types/UserType';
 import Input from '@/app/components/UI/Input';
 import Button from '@/app/components/UI/Button';
 import logo_image from '@/public/logo.png';
-import LoginPageWrapper from '@/app/components/wrappers/LoginPageWrapper';
+import LoginPageWrapper from '@/app/components/Wrappers/LoginPageWrapper';
 
 const ForgotPage = ({ params }: any) => {
     const [user, setUser] = useState<UserType | null>(null);

@@ -8,7 +8,7 @@ import toast from 'react-hot-toast';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import logo_image from '@/public/logo.png';
-import LoginPageWrapper from '../components/wrappers/LoginPageWrapper';
+import LoginPageWrapper from '../components/Wrappers/LoginPageWrapper';
 import { motion } from 'framer-motion';
 
 const Login = () => {
@@ -18,20 +18,20 @@ const Login = () => {
     const submit = async (e: FormEvent) => {
         e.preventDefault();
         const formData = new FormData(e.target as HTMLFormElement);
-        const email = formData.get('email') as string;
+        const login = formData.get('login') as string;
         const password = formData.get('password') as string;
 
-        if (!email || !password) {
-            toast.error('Fill in all required fields!');
+        if (!login || !password) {
+            toast.error('Заполните все обязательные поля!');
             return;
         }
 
         setFetching(true);
-        const toastId = toast.loading('Entering...');
+        const toastId = toast.loading('Вход...');
 
         try {
             const result = await signIn('credentials', {
-                email,
+                login,
                 password,
                 redirect: false
             });
@@ -39,13 +39,13 @@ const Login = () => {
             if (result && result.error) {
                 toast.error(result.error);
             } else {
-                toast.success('Success!');
+                toast.success('Успешный вход!');
                 router.push('/');
             }
 
             setFetching(false);
         } catch (error) {
-            toast.error('Error occurred!');
+            toast.error('Произошла ошибка!');
         } finally {
             toast.dismiss(toastId);
         }
@@ -72,15 +72,15 @@ const Login = () => {
                     layoutId="login_header"
                     className="mb-4 text-4xl font-bold text-primary"
                 >
-                    Sign In
+                    Вход
                 </motion.h1>
 
                 <Input
-                    layoutId="emailInput"
-                    type="email"
-                    name="email"
+                    layoutId="loginInput"
+                    type="text"
+                    name="login"
                     disabled={fetching}
-                    placeholder="E-mail"
+                    placeholder="Логин"
                     placeholderType="classic"
                     required
                 />
@@ -91,9 +91,8 @@ const Login = () => {
                     name="password"
                     disabled={fetching}
                     placeholderType="classic"
-                    placeholder="Password"
+                    placeholder="Пароль"
                     passwordSetup
-                    forgotPassword
                     required
                 />
 
@@ -103,16 +102,16 @@ const Login = () => {
                     className="mt-4 w-full"
                     disabled={fetching}
                 >
-                    Submit
+                    Войти
                 </Button>
 
                 <Link
                     href={'/register'}
                     className="flex gap-2 text-sm text-zinc-600 dark:text-white/70"
                 >
-                    Don`t have an account yet?
+                    Нет аккаунта?
                     <span className="hover:text-primary hover:underline focus:underline">
-                        Sign up
+                        Зарегистрироваться
                     </span>
                 </Link>
             </form>

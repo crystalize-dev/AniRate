@@ -14,12 +14,9 @@ export default async function middleware(req: NextRequest) {
         '/_next/image'
     ];
 
-    // Если путь является стандартным для Next.js, просто пропускаем его
     if (nextPaths.some((p) => path.startsWith(p)) || PUBLIC_FILE.test(path)) {
         return NextResponse.next();
     }
-
-    // Пропускаем страницы входа, сброса пароля
     if (
         path === '/register' ||
         path === '/login' ||
@@ -29,17 +26,18 @@ export default async function middleware(req: NextRequest) {
         return NextResponse.next();
     }
 
-    // Проверяем авторизационную сессию
     const session = await getToken({
         req,
         secret: process.env.AUTH_SECRET
     });
 
-    // Если сессии нет, делаем редирект на страницу входа
     if (!session) {
         return NextResponse.redirect(new URL('/login', req.url));
     }
 
-    // Если все проверки пройдены, пропускаем запрос
+    if (path === '/add' && session.role !== 'ADMIN') {
+        return NextResponse.redirect(new URL('/', req.url));
+    }
+
     return NextResponse.next();
 }

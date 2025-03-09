@@ -5,7 +5,7 @@ const LoginPageWrapper = ({ children }: { children: React.ReactNode }) => {
     return (
         <motion.div
             layoutId="mainWin"
-            className="border-light-border dark:border-dark-border bg-light-bg dark:bg-dark-bg flex h-full w-full items-center border-solid backdrop-blur-md lg:h-fit lg:w-fit lg:min-w-96 lg:rounded-xl lg:border"
+            className="flex h-full w-full items-center border-solid border-primary bg-light backdrop-blur-md lg:h-fit lg:w-fit lg:min-w-96 lg:rounded-xl lg:border dark:border-primary-dark dark:bg-dark"
         >
             {children}
         </motion.div>

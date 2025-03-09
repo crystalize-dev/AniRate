@@ -16,7 +16,9 @@ const ThemeToggler: React.FC<ThemeTogglerProps> = ({
     const { theme, toggleTheme } = useContext(ThemeContext);
 
     return (
-        <div className={`flex items-center justify-center ${className}`}>
+        <div
+            className={`flex items-center justify-center transition-all hover:scale-125 ${className}`}
+        >
             <Icon
                 {...props}
                 icon={theme === 'dark' ? 'moon' : 'sun'}

@@ -8,7 +8,7 @@ import Button from '../components/UI/Button';
 import Icon from '../components/Icon/Icon';
 import { customAxios } from '@/axios/customAxios';
 import logo_image from '@/public/logo.png';
-import LoginPageWrapper from '../components/wrappers/LoginPageWrapper';
+import LoginPageWrapper from '../components/Wrappers/LoginPageWrapper';
 
 const ForgotPage: React.FC = () => {
     const [fetching, setFetching] = useState(false);

@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
 import { customAxios } from '@/axios/customAxios';
-import LoginPageWrapper from '../components/wrappers/LoginPageWrapper';
+import LoginPageWrapper from '../components/Wrappers/LoginPageWrapper';
 import { motion } from 'framer-motion';
 
 const RegisterPage = () => {
@@ -18,17 +18,17 @@ const RegisterPage = () => {
     const submit = async (e: FormEvent) => {
         e.preventDefault();
         const formData = new FormData(e.target as HTMLFormElement);
-        const email = formData.get('email') as string;
+        const login = formData.get('login') as string;
         const password = formData.get('password') as string;
-        const passwordRepeat = formData.get('passwordRepeat') as String;
+        const passwordRepeat = formData.get('passwordRepeat') as string;
 
-        if (!email || !password || !passwordRepeat) {
-            toast.error('Fill in all required fields!');
+        if (!login || !password || !passwordRepeat) {
+            toast.error('Заполните все обязательные поля!');
             return;
         }
 
         if (password !== passwordRepeat) {
-            toast.error('Passwords do not match!');
+            toast.error('Пароли не совпадают!');
             return;
         }
 
@@ -36,15 +36,15 @@ const RegisterPage = () => {
 
         try {
             await customAxios('POST', 'register', setFetching, {
-                data: { email, password },
+                data: { login, password },
                 actionOnSuccess: () => {
-                    router.push('login');
+                    router.push('/login');
                 },
-                loadingString: 'Registering...',
-                successString: 'Success! Now you can log in!'
+                loadingString: 'Регистрация...',
+                successString: 'Успешно! Теперь вы можете войти!'
             });
         } catch (error) {
-            toast.error('Error occurred!');
+            toast.error('Произошла ошибка!');
         }
     };
 
@@ -56,7 +56,7 @@ const RegisterPage = () => {
             >
                 <div className="relative size-28">
                     <Image
-                        alt="logo"
+                        alt="Логотип"
                         src={logo_image}
                         priority
                         width={500}
@@ -69,15 +69,15 @@ const RegisterPage = () => {
                     layoutId="login_header"
                     className="mb-4 text-4xl font-bold text-primary"
                 >
-                    Sign Up
+                    Регистрация
                 </motion.h1>
 
                 <Input
-                    layoutId="emailInput"
-                    type="email"
-                    name="email"
+                    layoutId="loginInput"
+                    type="text"
+                    name="login"
                     disabled={fetching}
-                    placeholder="E-mail"
+                    placeholder="Логин"
                     placeholderType="classic"
                     required
                 />
@@ -88,7 +88,7 @@ const RegisterPage = () => {
                     name="password"
                     disabled={fetching}
                     placeholderType="classic"
-                    placeholder="Password"
+                    placeholder="Пароль"
                     passwordSetup
                     required
                 />
@@ -98,7 +98,7 @@ const RegisterPage = () => {
                     name="passwordRepeat"
                     disabled={fetching}
                     placeholderType="classic"
-                    placeholder="Repeat password"
+                    placeholder="Повторите пароль"
                     required
                 />
 
@@ -108,16 +108,16 @@ const RegisterPage = () => {
                     className="mt-4 w-full"
                     disabled={fetching}
                 >
-                    Submit
+                    Зарегистрироваться
                 </Button>
 
                 <Link
                     href={'/login'}
                     className="flex gap-2 text-sm text-zinc-600 dark:text-white/70"
                 >
-                    Already have an account?
+                    Уже есть аккаунт?
                     <span className="hover:text-primary hover:underline focus:underline">
-                        Sign in
+                        Войти
                     </span>
                 </Link>
             </form>

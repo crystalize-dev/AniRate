@@ -6,41 +6,43 @@ const prisma = new PrismaClient();
 
 export async function POST(req: NextRequest) {
     try {
-        const { password, email } = await req.json();
+        const { login, password } = await req.json();
 
-        if (!password || password.length < 5) {
+        if (!password || !login) {
             return NextResponse.json(
-                { error: 'Пароль не удовлетворяет требованиям!' },
+                { error: 'Не введен пароль или логин!' },
                 { status: 400 }
             );
         }
 
-        // Хэширование пароля
         const hashedPassword = await bcrypt.hash(
             password,
             await bcrypt.genSalt(10)
         );
-
-        // Попытка создать пользователя
         const createdUser = await prisma.user.create({
-            data: { email: email, hashedPassword: hashedPassword }
+            data: { login, password: hashedPassword, role: 'USER' }
         });
 
-        return NextResponse.json(createdUser, { status: 200 });
+        return NextResponse.json(
+            {
+                id: createdUser.id,
+                login: createdUser.login,
+                role: createdUser.role
+            },
+            { status: 200 }
+        );
     } catch (err) {
         if (err instanceof Prisma.PrismaClientKnownRequestError) {
             if (err.code === 'P2002') {
                 return NextResponse.json(
-                    { error: 'Email already exists!' },
+                    { error: 'Логин уже используется!' },
                     { status: 400 }
                 );
             }
         }
         return NextResponse.json(
-            { error: 'Internal Server Error' },
+            { error: 'Внутренняя ошибка сервера' },
             { status: 500 }
         );
-    } finally {
-        await prisma.$disconnect();
     }
 }

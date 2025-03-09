@@ -3,8 +3,8 @@ import './globals.css';
 import { LayoutProvider } from './layoutProvider';
 
 export const metadata: Metadata = {
-    title: 'somename',
-    description: ''
+    title: 'AniRate',
+    description: 'Сайт по оценке аниме персонажей!'
 };
 
 export default function RootLayout({

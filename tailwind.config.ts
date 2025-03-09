@@ -19,7 +19,8 @@ const config = {
                 },
                 dark: {
                     DEFAULT: 'var(--bg-full-dark)',
-                    secondary: 'var(--bg-object-dark)'
+                    secondary: 'var(--bg-object-dark)',
+                    additional: 'var(--bg-object-darker)'
                 }
             }
         }
